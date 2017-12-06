@@ -96,6 +96,7 @@
 #include <AP_SmartRTL/AP_SmartRTL.h>
 #include <AP_WheelEncoder/AP_WheelEncoder.h>
 #include <AP_Winch/AP_Winch.h>
+#include <AP_LandingProximity/AP_LandingProximity.h>
 
 // Configuration
 #include "defines.h"
@@ -213,6 +214,8 @@ private:
         LowPassFilterFloat alt_cm_filt; // altitude filter
         int8_t glitch_count;
     } rangefinder_state = { false, false, 0, 0 };
+
+    AP_LandingProximity landing_proximity;
 
     AP_RPM rpm_sensor = AP_RPM::create();
 
@@ -849,6 +852,7 @@ private:
     void read_barometer(void);
     void barometer_accumulate(void);
     void init_rangefinder(void);
+    void init_landing_proximity();
     void read_rangefinder(void);
     bool rangefinder_alt_ok();
     void init_compass();

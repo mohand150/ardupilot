@@ -30,6 +30,11 @@ void Copter::barometer_accumulate(void)
     barometer.accumulate();
 }
 
+void Copter::init_landing_proximity()
+{
+    landing_proximity.init();
+}
+
 void Copter::init_rangefinder(void)
 {
 #if RANGEFINDER_ENABLED == ENABLED
