@@ -547,6 +547,26 @@ void Copter::Log_Write_Precland()
  #endif     // PRECISION_LANDING == ENABLED
 }
 
+struct PACKED log_LandProx {
+    LOG_PACKET_HEADER;
+    uint64_t time_us;
+    uint8_t proximity;
+};
+
+void Copter::Log_Write_LandProx()
+{
+    if (!landing_proximity.enabled()) {
+        return;
+    }
+
+    struct log_LandProx pkt = {
+        LOG_PACKET_HEADER_INIT(LOG_LANDPROX_MSG),
+        time_us : AP_HAL::micros64(),
+        proximity : landing_proximity.proximity
+    };
+    DataFlash.WriteBlock(&pkt, sizeof(pkt));
+}
+
 // precision landing logging
 struct PACKED log_GuidedTarget {
     LOG_PACKET_HEADER;
@@ -674,6 +694,8 @@ const struct LogStructure Copter::log_structure[] = {
       "GUID",  "QBffffff",    "TimeUS,Type,pX,pY,pZ,vX,vY,vZ", "s-mmmnnn", "F-000000" },
     { LOG_THROW_MSG, sizeof(log_Throw),
       "THRO",  "QBffffbbbb",  "TimeUS,Stage,Vel,VelZ,Acc,AccEfZ,Throw,AttOk,HgtOk,PosOk", "s-nnoo----", "F-0000----" },
+    { LOG_LANDPROX_MSG, sizeof(log_LandProx),
+      "LPRO",    "QB",    "TimeUS,Proxi", "s-","F-" },
 };
 
 void Copter::Log_Write_Vehicle_Startup_Messages()
@@ -719,6 +741,7 @@ void Copter::Log_Write_Parameter_Tuning(uint8_t param, float tuning_val, int16_t
 void Copter::Log_Write_Home_And_Origin() {}
 void Copter::Log_Sensor_Health() {}
 void Copter::Log_Write_Precland() {}
+void Copter::Log_Write_LandProx() {}
 void Copter::Log_Write_GuidedTarget(uint8_t target_type, const Vector3f& pos_target, const Vector3f& vel_target) {}
 void Copter::Log_Write_Throw(ThrowModeStage stage, float velocity, float velocity_z, float accel, float ef_accel_z, bool throw_detect, bool attitude_ok, bool height_ok, bool pos_ok) {}
 void Copter::Log_Write_Proximity() {}
