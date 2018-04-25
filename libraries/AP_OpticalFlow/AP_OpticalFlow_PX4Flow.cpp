@@ -27,6 +27,7 @@
 
 extern const AP_HAL::HAL& hal;
 
+
 #define PX4FLOW_BASE_I2C_ADDR   0x42
 #define PX4FLOW_INIT_RETRIES    10      // attempt to initialise the sensor up to 10 times at startup
 
@@ -81,7 +82,7 @@ bool AP_OpticalFlow_PX4Flow::scan_buses(void)
                 printf("Found PX4Flow on bus %u\n", bus);
                 dev = std::move(tdev);
                 break;
-            }
+            } else {printf("aucun PX4Flow\n");}
         }
         retry_attempt++;
         if (!success) {
@@ -135,3 +136,4 @@ void AP_OpticalFlow_PX4Flow::timer(void)
 
     _update_frontend(state);
 }
+
