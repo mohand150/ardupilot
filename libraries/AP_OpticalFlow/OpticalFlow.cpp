@@ -13,7 +13,7 @@ const AP_Param::GroupInfo OpticalFlow::var_info[] = {
     // @Description: Setting this to Enabled(1) will enable optical flow. Setting this to Disabled(0) will disable optical flow
     // @Values: 0:Disabled, 1:Enabled
     // @User: Standard
-    AP_GROUPINFO("_ENABLE", 0,  OpticalFlow,    _enabled,   0),
+    AP_GROUPINFO("_ENABLE", 0,  OpticalFlow,    _enabled,   1),
 
     // @Param: _FXSCALER
     // @DisplayName: X axis optical flow scale factor correction
@@ -63,7 +63,7 @@ const AP_Param::GroupInfo OpticalFlow::var_info[] = {
     // @Description: This is used to select between multiple possible I2C addresses for some sensor types. For PX4Flow you can choose 0 to 7 for the 8 possible addresses on the I2C bus.
     // @Range: 0 127
     // @User: Advanced
-    AP_GROUPINFO("_ADDR", 5,  OpticalFlow, _address,   0),
+    AP_GROUPINFO("_ADDR", 5,  OpticalFlow, _address,  0x42),
     
     AP_GROUPEND
 };
